@@ -1,8 +1,10 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.entity.Area;
 import com.example.demo.entity.Branch;
 import com.example.demo.entity.Store;
 import com.example.demo.model.StoreRequest;
+import com.example.demo.repository.AreaRepository;
 import com.example.demo.repository.BranchRepository;
 import com.example.demo.repository.StoreRepository;
 import com.example.demo.service.StoreService;
@@ -24,6 +26,9 @@ public class StoreServiceImpl implements StoreService {
     @Autowired
     StoreRepository storeRepository;
 
+    @Autowired
+    AreaRepository areaRepository;
+
     @Transactional
     @Override
     public boolean addStore(StoreRequest storeRequest) {
@@ -34,15 +39,29 @@ public class StoreServiceImpl implements StoreService {
         }
         store.setStoreName(storeRequest.getStoreName());
 
+        store.getAreas();
+        Area area = areaRepository.findByArea(storeRequest.getArea());
+        if (null == area) {
+            area = new Area();
+        }
+
+        area.setArea(storeRequest.getArea());
+        area.setStore(store);
+
         Branch branch = new Branch();
         branch.setBranchName(storeRequest.getBranchName());
         branch.setPhone(storeRequest.getPhone());
         branch.setAddress(storeRequest.getAddress());
-        branch.setStore(store);
+        branch.setArea(area);
 
-        List<Branch> list = new ArrayList<>();
-        list.add(branch);
-        store.setStores(list);
+        List<Branch> branchList = new ArrayList<>();
+        branchList.add(branch);
+        area.setBranches(branchList);
+
+        List<Area> areaList = new ArrayList<>();
+        areaList.add(area);
+        store.setAreas(areaList);
+
         storeRepository.save(store);
 
         return true;

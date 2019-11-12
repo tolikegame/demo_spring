@@ -1,7 +1,5 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -17,7 +15,7 @@ public class Store {
     private String storeName;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "store")
-    private List<Branch> stores;
+    private List<Area> areas;
 
     public int getId() {
         return id;
@@ -35,11 +33,11 @@ public class Store {
         this.storeName = storeName;
     }
 
-    public List<Branch> getStores() {
-        return stores;
+    public List<Area> getAreas() {
+        return areas;
     }
 
-    public void setStores(List<Branch> stores) {
-        this.stores = stores;
+    public void setAreas(List<Area> areas) {
+        this.areas = areas;
     }
 }

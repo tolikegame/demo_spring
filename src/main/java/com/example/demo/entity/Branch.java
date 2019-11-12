@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -22,9 +23,10 @@ public class Branch {
     private String address;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "store_id")
-    @JsonBackReference
-    private Store store;
+    @JoinColumn(name = "area_id")
+//    @JsonBackReference
+    @JsonIgnore
+    private Area area;
 
     public int getId() {
         return id;
@@ -58,11 +60,11 @@ public class Branch {
         this.address = address;
     }
 
-    public Store getStore() {
-        return store;
+    public Area getArea() {
+        return area;
     }
 
-    public void setStore(Store store) {
-        this.store = store;
+    public void setArea(Area area) {
+        this.area = area;
     }
 }
