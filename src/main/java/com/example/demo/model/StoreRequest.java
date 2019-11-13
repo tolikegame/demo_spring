@@ -4,6 +4,7 @@ public class StoreRequest {
     private int id;
     private String storeName;
     private String area;
+    private String reArea;
     private String branchName;
     private String phone;
     private String address;
@@ -54,5 +55,13 @@ public class StoreRequest {
 
     public void setArea(String area) {
         this.area = area;
+    }
+
+    public String getReArea() {
+        return reArea;
+    }
+
+    public void setReArea(String reArea) {
+        this.reArea = reArea;
     }
 }

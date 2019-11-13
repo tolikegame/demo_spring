@@ -34,19 +34,26 @@ public class StoreServiceImpl implements StoreService {
     public boolean addStore(StoreRequest storeRequest) {
 
         Store store = storeRepository.findByStoreName(storeRequest.getStoreName());
-        if (null == store) {
+        if (null == store) {    //如找不到就是新增
             store = new Store();
         }
         store.setStoreName(storeRequest.getStoreName());
 
-        store.getAreas();
-        Area area = areaRepository.findByArea(storeRequest.getArea());
-        if (null == area) {
-            area = new Area();
+        List<Area> areaList = store.getAreas();
+        if(null == areaList){   //如商家已有，沿用原本資料，不新增
+            areaList = new ArrayList<>();
+        }
+        Area area = new Area();
+        for(Area areaTemp : areaList){
+            if(areaTemp.getArea().equals(storeRequest.getArea())){  //已有地區資料會沿用，不新增
+                area = areaTemp;
+            }
         }
 
         area.setArea(storeRequest.getArea());
-        area.setStore(store);
+        area.setStore(store);   //儲存商店的id
+        areaList.add(area);
+        store.setAreas(areaList);
 
         Branch branch = new Branch();
         branch.setBranchName(storeRequest.getBranchName());
@@ -58,10 +65,6 @@ public class StoreServiceImpl implements StoreService {
         branchList.add(branch);
         area.setBranches(branchList);
 
-        List<Area> areaList = new ArrayList<>();
-        areaList.add(area);
-        store.setAreas(areaList);
-
         storeRepository.save(store);
 
         return true;
@@ -69,9 +72,17 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public boolean updateSotre(StoreRequest storeRequest) {
-//        Store store = storeRepository.getOne(storeRequest.getId());
-        Store store = storeRepository.findById(storeRequest.getId()).get();
+        Store store = storeRepository.getOne(storeRequest.getId());
         store.setStoreName(storeRequest.getStoreName());
+
+        List<Area> areas = store.getAreas();
+        for(Area area : areas){ //找出要改的地區
+            if(area.getArea().equals(storeRequest.getArea())){
+                area.setArea(storeRequest.getReArea());
+            }
+        }
+        store.setAreas(areas);
+
         storeRepository.save(store);
 
         return true;
