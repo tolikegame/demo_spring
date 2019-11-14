@@ -1,19 +1,33 @@
-package com.example.demo.model;
+package com.example.demo.entity;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
 
-public class UserRequest {
+@Entity
+@Table(name = "test_users")
+public class TestUser {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    @NotNull
+    @Column(name = "account")
     private String account;
-    @NotEmpty
-    private String password;
-//    @NotBlank
+
+    @Column(name = "password")
+    private  String password;
+
+    @Column(name = "e_mail")
     private String eMail;
 
+    @Column(name = "phone")
     private String phone;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getAccount() {
         return account;
