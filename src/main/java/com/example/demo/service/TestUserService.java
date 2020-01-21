@@ -12,4 +12,6 @@ public interface TestUserService {
 
     String delete(TestUserRequest userRequest);
 
+    void test();
+
 }

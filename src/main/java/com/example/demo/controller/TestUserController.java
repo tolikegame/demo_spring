@@ -33,5 +33,8 @@ public class TestUserController {
         return testUserService.delete(userRequest);
     }
 
-
+    @GetMapping(value = "/test")
+    public void test(){
+        testUserService.test();
+    }
 }
