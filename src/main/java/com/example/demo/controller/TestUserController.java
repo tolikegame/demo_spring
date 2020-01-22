@@ -4,6 +4,7 @@ import com.example.demo.entity.TestUser;
 import com.example.demo.entity.User;
 import com.example.demo.model.TestUserRequest;
 import com.example.demo.service.TestUserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,14 @@ public class TestUserController {
 
     @GetMapping(value = "/test")
     public void test(){
-        testUserService.test();
+        //測試BeanUtils
+        TestUser testUser = new TestUser();
+        User user = new User();
+        testUser.seteMail("@@");
+        BeanUtils.copyProperties(testUser,user);
+        System.out.println(user.geteMail());
+        if(false){
+            testUserService.test();
+        }
     }
 }
